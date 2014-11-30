@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | 赵峰的个人博客]]></title>
+  <link href="http://piaoling.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://piaoling.github.io/"/>
+  <updated>2014-11-30T21:31:54+08:00</updated>
+  <id>http://piaoling.github.io/</id>
+  <author>
+    <name><![CDATA[赵峰]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[我的第一篇Octopress博客]]></title>
+    <link href="http://piaoling.github.io/blog/2014/11/30/first-article/"/>
+    <updated>2014-11-30T20:52:17+08:00</updated>
+    <id>http://piaoling.github.io/blog/2014/11/30/first-article</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>
