@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://piaoling.github.io/sitemap.xml 
