@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | 赵峰的个人博客]]></title>
   <link href="http://piaoling.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://piaoling.github.io/"/>
-  <updated>2014-12-06T22:07:20+08:00</updated>
+  <updated>2014-12-06T22:16:42+08:00</updated>
   <id>http://piaoling.github.io/</id>
   <author>
     <name><![CDATA[赵峰]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress Blog访问提速]]></title>
+    <link href="http://piaoling.github.io/blog/2014/12/06/improve-octopress-response-time/"/>
+    <updated>2014-12-06T22:13:45+08:00</updated>
+    <id>http://piaoling.github.io/blog/2014/12/06/improve-octopress-response-time</id>
+    <content type="html"><![CDATA[<h2>将blog同步部署到gitcafe上</h2>
+
+<h2>解决访问还是慢的问题</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac搭建Octopress博客（一）]]></title>
@@ -46,8 +57,6 @@
 <li>安装Octopress</li>
 <li>配置Octopress——hello world</li>
 <li>将blog部署到github上</li>
-<li>将blog同步部署到gitcafe上</li>
-<li>解决访问还是慢的问题</li>
 </ul>
 
 
@@ -182,10 +191,6 @@ git pull origin master
 <p>如果有冲突自己把冲突解了吧。然后在<code>rake deploy</code>就可以了</p>
 
 <p>PS: 文章是markdown格式的，推荐一个<a href="http://macdown.uranusjr.com/">Mac上markdown编辑工具</a></p>
-
-<h2>将blog同步部署到gitcafe上</h2>
-
-<h2>解决访问还是慢的问题</h2>
 ]]></content>
   </entry>
   
