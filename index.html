@@ -111,6 +111,7 @@
 <h2>目录</h2>
 
 <ul>
+<li>Mac上的包管理工具——Homebrew</li>
 <li>安装ruby</li>
 <li>安装Octopress</li>
 <li>配置Octopress——hello world</li>
@@ -119,6 +120,142 @@
 <li>解决访问还是慢的问题</li>
 </ul>
 
+
+<h2>Mac上的包管理工具-Homebrew</h2>
+
+<p>程序员的Mac环境配置和打造绝对值得写写，这也将是我下一篇文章的内容。
+这里只说包管理工具。
+都知道redhat上有yum，ubuntu上有apt-get，Mac上的Homebrew也越来越被熟知。</p>
+
+<p>在安装 Homebrew 之前，需要将 Xcode Command Line Tools 安装完成，这样你就可以使用基于 Xcode Command Line Tools 编译的 Homebrew。</p>
+
+<p>在 terminal 中复制以下命令（不包括 $），跟随指引，将完成 Hombrew 安装。</p>
+
+<pre><code>$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre>
+
+<p>紧接着，我们需要做一件事让通过 Hombrew 安装的程序的启动链接 (在 /usr/local/bin中）可以直接运行，无需将完整路径写出。通过以下命令将 /usr/local/bin 添加至 $PATH 环境变量中:</p>
+
+<pre><code>$ echo 'export PATH="/usr/local/bin:$PATH"' &gt;&gt; ~/.bash_profile
+</code></pre>
+
+<p>Cmd+T 打开一个新的 terminal 标签页，运行以下命令，确保 brew 运行正常。</p>
+
+<pre><code>$ brew doctor
+</code></pre>
+
+<p>安装完成后，Homwbrew 会将本地 /usr/local 初始化为 git 的工作树，并将目录所有者变更为当前所操作的用户，将来 brew 的相关操作不需要 sudo 。</p>
+
+<h3>Homebrew 基本使用</h3>
+
+<p>安装一个包，可以简单的运行</p>
+
+<pre><code>$ brew install &lt;package_name&gt;
+</code></pre>
+
+<p>更新 Homebrew 在服务器端上的包目录：</p>
+
+<pre><code>$ brew update
+</code></pre>
+
+<p>查看你的包是否需要更新：</p>
+
+<pre><code>$ brew outdated
+</code></pre>
+
+<p>更新包：</p>
+
+<pre><code>$ brew upgrade &lt;package_name&gt;
+</code></pre>
+
+<p>Homebrew 将会把老版本的包缓存下来，以便当你想回滚至旧版本时使用。但这是比较少使用的情况，当你想清理旧版本的包缓存时，可以运行:</p>
+
+<pre><code>$ brew cleanup
+</code></pre>
+
+<p>查看你安装过的包列表（包括版本号）：</p>
+
+<pre><code>$ brew list --versions
+</code></pre>
+
+<h2>安装Ruby和rbenv</h2>
+
+<p>在终端输入<code>ruby --version</code> 会返回你当前的ruby版本，请确保你的ruby版本>1.9.3 最好是2.1（因为我是2.0，装的时候遇到问题后又升到了2.1）</p>
+
+<p>安装Ruby有2中方式，<a href="http://octopress.org/docs/setup/rbenv/">rbenv</a> 或 <a href="http://octopress.org/docs/setup/rvm/">RVM</a>，
+我们需要安装rbenv。终端输入：</p>
+
+<pre><code>brew update
+brew install rbenv
+brew install ruby-build
+</code></pre>
+
+<p>如果你机器上的ruby已经满足版本要求直接阅读安装Octopress，否则可以参照如下安装ruby。</p>
+
+<pre><code>rbenv install 1.9.3-p0
+rbenv local 1.9.3-p0
+rbenv rehash
+</code></pre>
+
+<h2>安装Octopress</h2>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+</code></pre>
+
+<p>安装依赖</p>
+
+<pre><code>gem install bundler
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+</code></pre>
+
+<p>PS:我在bundle install时遇到了2个大麻烦，现在回忆不起来了，其中一个是因为我安装了2个xcode，第二个xcode 2的目录中有个空格导致Makefile生成的环境错误。解决的办法是要用xcode-select 命令修改 the path of the active developer directory.
+具体方式请<code>xcode-select -h</code> 或者把你的xcode全部卸载，重装吧。</p>
+
+<p>最后安装Octopress</p>
+
+<pre><code>rake install
+</code></pre>
+
+<h2>配置Octopress——hello world</h2>
+
+<p>基础配置参考：<a href="http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html">http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html</a></p>
+
+<ul>
+<li>rake new_post[‘article name’] 生成博文框架，然后修改生成的文件即可</li>
+<li>rake generate 生成静态文件</li>
+<li>rake watch 检测文件变化，实时生成新内容(可选)</li>
+<li>rake preview 在本机4000端口生成访问内容（可选）
+ 或者访问localhost:4000</li>
+<li>rake deploy 发布文件</li>
+</ul>
+
+
+<p>注意先不要运行<code>rake deploy</code>， 因为这之前你要先绑定一次github</p>
+
+<h2>将blog部署到github上</h2>
+
+<p>登陆www.github.com,并创建一个名为username.github.io的代码仓库。这里注意username必须是和你的账号名一致。</p>
+
+<p>其实这个就是github的pages服务，然后在终端进入到Octopress目录，第一次发布在执行<code>rake deploy</code>前要执行<code>rake setup_github_pages</code>来绑定github仓库。在输入提示中输入你的github-pages地址。例如：
+<code>git@github.com:username/username.github.io.git</code></p>
+
+<p>现在运行rake deploy发布你的第一篇blog吧。然后访问username.github.io即可看到你的blog了。通常第一次要等的久一些，所以你如果看到的是404页面不好灰心。</p>
+
+<p>像我这种手贱的，立刻就google了，说可以手动刷新一下，在github的设置页面里生成一个默认页面然后立刻就能刷出github-pages页面。但是不是我们上传的Octopress页面。当你再次<code>rake deploy</code>时出现git仓库内容不匹配的错误。</p>
+
+<pre><code>cd _deploy
+git pull origin master
+</code></pre>
+
+<p>如果有冲突自己把冲突解了吧。然后在<code>rake deploy</code>就可以了</p>
+
+<p>PS: 文章是markdown格式的，推荐一个<a href="http://macdown.uranusjr.com/">Mac上markdown编辑工具</a></p>
+
+<h2>将blog同步部署到gitcafe上</h2>
+
+<h2>解决访问还是慢的问题</h2>
 </div>
   
   
