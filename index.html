@@ -88,9 +88,78 @@
   </header>
 
 
-  <div class="entry-content"><h2>将blog同步部署到gitcafe上</h2>
+  <div class="entry-content"><p>github国内访问本身速度就比较慢，当访问我们的主页时也会出现各种加载中的状态。</p>
+
+<p>国内同样也有提供类似服务的公司——gitcafe，所以将博客的内容镜像到<a href="https://gitcafe.com/">GitCafe</a>上。</p>
+
+<h2>将blog同步部署到gitcafe上</h2>
+
+<p>如果你还没有注册过<a href="https://gitcafe.com/">GitCafe</a>，首先需要<a href="https://gitcafe.com/signup">点这里</a>注册一下。</p>
+
+<p>注意在gitcafe注册的用户名最好跟github一样，否则在同时向2个地方同步时会有问题，因为gitconfig中的username不一致，或者说public key中的username不一致导致不能同时传2传代码。</p>
+
+<p>注册完成之后，去<a href="https://gitcafe.com/account/public_keys">公钥管理</a>那儿添加一下你的ssh公钥。</p>
+
+<h4>在GitCafe上新建一个博客项目</h4>
+
+<p>然后我们需要先在GitCafe上新建一个博客项目。具体来说，就是创建一个与用户名(如果是组织，就是组织名)相同名称的项目。如果你创建的项目名与用户名相同，GitCafe会自动识别成这是一个Page项目。</p>
+
+<h4>设置多个Git Remote源</h4>
+
+<p>接下来我们需要将原本提交到Github上的博客内容同步提交到GitCafe。</p>
+
+<p>对于Octopress，我们只需要每次提交网站内容时，执行完 rake deploy之后，再执行以下脚本即可（你可以将该脚本中的代码仓库地址换成你的，然后将其保存成一个脚本文件，需要时执行一下即可）：</p>
+
+<pre><code>cd _deploy
+# 添加 gitcafe 源
+git remote add gitcafe git@gitcafe.com:zhaofeng/zhaofeng.git &gt;&gt; /dev/null 2&gt;&amp;1
+# 提交博客内容
+echo "### Pushing to GitCafe..."
+git push -u gitcafe master:gitcafe-pages
+echo "### Done"%
+</code></pre>
+
+<p>大概解释一下以上内容，Octopress在发布时会将自己的<code>_delpoy</code>目录切换到master分支，然后将生成的博客内容放到<code>_delpoy</code>目录中，然后执行<code>git push</code>操作。正常情况下，默认内容是push到github上的。我们执行的以上脚本，就是为该项目增加了一个名为<code>gitcafe</code>的远程仓库，然后将master分支push到<code>gitcafe</code>的<code>gitcafe-pages</code>分支。</p>
+
+<p>除了以上方法外，你也可以直接修改<code>Rakefile</code>。在其第269行后增加如下代码，也可以达到同样的目的，这样你每次就仍然只需要执行<code>rake deploy</code>即可同时将博客同步到github和gitcafe:</p>
+
+<pre><code>system "git remote add gitcafe git@gitcafe.com:tangqiaoboy/tangqiaoboy.git &gt;&gt; /dev/null 2&gt;&amp;1"
+system "git push -u gitcafe master:gitcafe-pages"
+</code></pre>
+
+<p>插入代码的示例位置如下：</p>
+
+<p><img src="./images/gitcafe-edit-rakefile.jpg" alt="gitcafe-edit-rakefile" /></p>
+
+<p>通过修改<code>source/_includes/custom/footer.html</code>文件添加对gitcafe的感谢。</p>
+
+<pre><code> &lt;p&gt;
+&amp;copy; 2014 - 赵峰 -
+&lt;span class="credit"&gt;基于 &lt;a href="http://octopress.org" target="_blank"&gt;Octopress&lt;/a&gt;&lt;/span&gt;
+&lt;span class="credit"&gt;, 感谢 &lt;a href="http://gitcafe.com/signup?invited_by=tangqiaoboy" target="_blank"&gt;GitCafe&lt;/a&gt; 为本站提供存储空间&lt;/span&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p> 做了这么多后，再访问一下你的主页你会发现——还是慢</p>
 
 <h2>解决访问还是慢的问题</h2>
+
+<p>很喜欢池老师的这篇<a href="http://macshuo.com/?p=1234">《冰封四海》</a>
+，虽然池老师用的wordpress，但是我们慢的原理是一样的。</p>
+
+<p>所以借用来2行命令：</p>
+
+<pre><code>grep "ajax.googleapis.com" ~/Octorpress/* -R | cut -f 1 -d ":" | uniq | xargs sudo sed -i 's/ajax.googleapis.com/ajax.useso.com/g'
+
+grep "fonts.googleapis.com" ~/Octorpress/* -R | cut -f 1 -d ":" | uniq | xargs sudo sed -i 's/fonts.googleapis.com/fonts.useso.com/g'
+</code></pre>
+
+<p>执行的话，会发现sed语句会报错，没看出什么毛病，可能Mac上有一些参数不一样吧。只执行grep把包含问题资源的文件就都能找出来了，会发现其实并不多。我是一个一个手动替换的，注意deploy目录下不需要替换因为它是动态生成的。</p>
+
+<pre><code>grep "ajax.googleapis.com" ~/Octorpress/* -R
+</code></pre>
+
+<p>改过后再次<code>rake generate</code>, <code>rake deploy</code>后再访问你的网页，怎么样快到闪瞎眼。</p>
 </div>
   
   
